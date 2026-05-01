@@ -24,7 +24,7 @@
   <div id="app" class="app-wrap">
     <h1 class="page-title">跑团资料页</h1>
     <el-tabs v-model="activeTab" type="border-card" @tab-change="loadDoc">
-      <el-tab-pane label="备用资源" name="res"></el-tab-pane>
+      <el-tab-pane label="艾恩石图鉴" name="res"></el-tab-pane>
       <el-tab-pane label="夏-图尔遗迹" name="ruin"></el-tab-pane>
       <el-tab-pane label="玩家指南" name="guide"></el-tab-pane>
     </el-tabs>
@@ -38,7 +38,7 @@
   <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
   <script>
     const DOC_FILES = {
-      res: "./content/备用资源.json",
+      res: "./content/艾恩石图鉴.json",
       ruin: "./content/夏-图尔遗迹.md",
       guide: "./content/玩家指南.md"
     };
@@ -74,12 +74,19 @@
         },
         renderResources(items) {
           if (!Array.isArray(items) || !items.length) return "<p>暂无可显示的资源数据。</p>";
-          const formatBlock = (text) => this.cleanInline(text || "无").replace(/\n/g, "<br>");
+          const formatBlock = (text) => {
+            const raw = (text ?? "").toString();
+            if (!raw.trim()) return "？";
+            return this.cleanInline(raw).replace(/\n/g, "<br>");
+          };
           return items.map((item) => {
-            const name = this.cleanInline(item.name || "？");
+            const id = Number.isFinite(item.id) ? item.id : "?";
+            const name = formatBlock(item.name);
+            const trueName = formatBlock(item.trueName);
             const effect = formatBlock(item.effect);
+            const resonance = formatBlock(item.resonance);
             const attunement = formatBlock(item.attunement);
-            return `<section><h3>${name}</h3><p class="kv"><span class="key">效果：</span>${effect}</p><p class="kv"><span class="key">调谐：</span>${attunement}</p></section>`;
+            return `<section><h3>[${id}] ${name}『${trueName}』</h3><p class="kv"><span class="key">效果：</span>${effect}</p><p class="kv"><span class="key">共振：</span>${resonance}</p><p class="kv"><span class="key">调谐：</span>${attunement}</p></section>`;
           }).join("");
         },
         cleanInline(text) {
