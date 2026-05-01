@@ -24,13 +24,13 @@
   <div id="app" class="app-wrap">
     <h1 class="page-title">跑团资料页</h1>
     <el-tabs v-model="activeTab" type="border-card" @tab-change="loadDoc">
-      <el-tab-pane label="备用资源" name="res" />
-      <el-tab-pane label="夏-图尔遗迹" name="ruin" />
-      <el-tab-pane label="玩家指南" name="guide" />
+      <el-tab-pane label="备用资源" name="res"></el-tab-pane>
+      <el-tab-pane label="夏-图尔遗迹" name="ruin"></el-tab-pane>
+      <el-tab-pane label="玩家指南" name="guide"></el-tab-pane>
     </el-tabs>
     <el-card style="margin-top: 14px">
-      <el-skeleton v-if="loading" :rows="8" animated />
-      <el-alert v-else-if="error" :title="error" type="error" :closable="false" show-icon />
+      <el-skeleton v-if="loading" :rows="8" animated></el-skeleton>
+      <el-alert v-else-if="error" :title="error" type="error" :closable="false" show-icon></el-alert>
       <div v-else class="doc-content" v-html="formattedDoc"></div>
     </el-card>
   </div>
