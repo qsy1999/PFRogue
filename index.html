@@ -38,7 +38,7 @@
   <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
   <script>
     const DOC_FILES = {
-      res: "./content/备用资源.md",
+      res: "./content/备用资源.json",
       ruin: "./content/夏-图尔遗迹.md",
       guide: "./content/玩家指南.md"
     };
@@ -48,7 +48,10 @@
         return { docs: {}, activeTab: "res", loading: false, error: "" };
       },
       computed: {
-        formattedDoc() { return this.renderDoc(this.docs[this.activeTab] || ""); }
+        formattedDoc() {
+          if (this.activeTab === "res") return this.renderResources(this.docs.res || []);
+          return this.renderDoc(this.docs[this.activeTab] || "");
+        }
       },
       methods: {
         async loadDoc(name) {
@@ -59,7 +62,7 @@
           try {
             const resp = await fetch(DOC_FILES[key], { cache: "no-cache" });
             if (!resp.ok) throw new Error("load failed");
-            this.docs[key] = await resp.text();
+            this.docs[key] = key === "res" ? await resp.json() : await resp.text();
           } catch (e) {
             this.error = `文档加载失败：${DOC_FILES[key]}`;
           } finally {
@@ -67,7 +70,17 @@
           }
         },
         escapeHtml(text) {
-          return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        },
+        renderResources(items) {
+          if (!Array.isArray(items) || !items.length) return "<p>暂无可显示的资源数据。</p>";
+          const formatBlock = (text) => this.cleanInline(text || "无").replace(/\n/g, "<br>");
+          return items.map((item) => {
+            const name = this.cleanInline(item.name || "？");
+            const effect = formatBlock(item.effect);
+            const attunement = formatBlock(item.attunement);
+            return `<section><h3>${name}</h3><p class="kv"><span class="key">效果：</span>${effect}</p><p class="kv"><span class="key">调谐：</span>${attunement}</p></section>`;
+          }).join("");
         },
         cleanInline(text) {
           return this.escapeHtml(
