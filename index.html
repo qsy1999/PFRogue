@@ -1,0 +1,120 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跑团资料页</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+  <style>
+    body { font-family: "Microsoft YaHei", sans-serif; margin: 0; background: #f5f7fa; color: #303133; }
+    .app-wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    .page-title { font-size: 28px; font-weight: 700; margin: 0 0 16px; }
+    .doc-content { word-break: break-word; line-height: 1.8; margin: 0; font-family: inherit; }
+    .doc-content h2 { margin: 0 0 14px; font-size: 24px; color: #1f2d3d; }
+    .doc-content h3 { margin: 18px 0 10px; font-size: 18px; color: #2c3e50; border-left: 4px solid #409eff; padding-left: 10px; }
+    .doc-content p { margin: 8px 0; }
+    .doc-content .kv { margin: 8px 0; background: #f8fbff; border: 1px solid #e3f0ff; border-radius: 8px; padding: 8px 10px; }
+    .doc-content .key { color: #409eff; font-weight: 700; }
+    .doc-content ul { margin: 8px 0 10px 20px; padding: 0; }
+    .doc-content li { margin: 4px 0; }
+    .doc-content .spacer { height: 8px; }
+  </style>
+</head>
+<body>
+  <div id="app" class="app-wrap">
+    <h1 class="page-title">跑团资料页</h1>
+    <el-tabs v-model="activeTab" type="border-card" @tab-change="loadDoc">
+      <el-tab-pane label="备用资源" name="res" />
+      <el-tab-pane label="夏-图尔遗迹" name="ruin" />
+      <el-tab-pane label="玩家指南" name="guide" />
+    </el-tabs>
+    <el-card style="margin-top: 14px">
+      <el-skeleton v-if="loading" :rows="8" animated />
+      <el-alert v-else-if="error" :title="error" type="error" :closable="false" show-icon />
+      <div v-else class="doc-content" v-html="formattedDoc"></div>
+    </el-card>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const DOC_FILES = {
+      res: "./content/备用资源.md",
+      ruin: "./content/夏-图尔遗迹.md",
+      guide: "./content/玩家指南.md"
+    };
+
+    const app = Vue.createApp({
+      data() {
+        return { docs: {}, activeTab: "res", loading: false, error: "" };
+      },
+      computed: {
+        formattedDoc() { return this.renderDoc(this.docs[this.activeTab] || ""); }
+      },
+      methods: {
+        async loadDoc(name) {
+          const key = name || this.activeTab;
+          if (this.docs[key]) return;
+          this.loading = true;
+          this.error = "";
+          try {
+            const resp = await fetch(DOC_FILES[key], { cache: "no-cache" });
+            if (!resp.ok) throw new Error("load failed");
+            this.docs[key] = await resp.text();
+          } catch (e) {
+            this.error = `文档加载失败：${DOC_FILES[key]}`;
+          } finally {
+            this.loading = false;
+          }
+        },
+        escapeHtml(text) {
+          return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        },
+        cleanInline(text) {
+          return this.escapeHtml(
+            text.replace(/&emsp;/g, " ").replace(/`([^`]+)`/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").trim()
+          );
+        },
+        renderDoc(text) {
+          const lines = text.split(/\r?\n/);
+          const html = [];
+          let inList = false;
+          const closeList = () => { if (inList) { html.push("</ul>"); inList = false; } };
+
+          for (const rawLine of lines) {
+            const line = rawLine.trim();
+            if (!line) { closeList(); html.push('<div class="spacer"></div>'); continue; }
+            if (/^#{1}\s+/.test(line)) { closeList(); html.push(`<h2>${this.cleanInline(line.replace(/^#{1}\s+/, ""))}</h2>`); continue; }
+            if (/^#{2}\s+/.test(line)) { closeList(); html.push(`<h3>${this.cleanInline(line.replace(/^#{2}\s+/, ""))}</h3>`); continue; }
+
+            const kvMatch = line.match(/^\*\*([^*]+)：\*\*\s*(.*)$/);
+            if (kvMatch) {
+              closeList();
+              html.push(`<p class="kv"><span class="key">${this.cleanInline(kvMatch[1])}：</span>${this.cleanInline(kvMatch[2])}</p>`);
+              continue;
+            }
+
+            const listMatch = line.match(/^\*\s+(.+)$/);
+            if (listMatch) {
+              if (!inList) { html.push("<ul>"); inList = true; }
+              html.push(`<li>${this.cleanInline(listMatch[1])}</li>`);
+              continue;
+            }
+
+            closeList();
+            html.push(`<p>${this.cleanInline(line)}</p>`);
+          }
+
+          closeList();
+          return html.join("");
+        }
+      },
+      mounted() {
+        this.loadDoc("res");
+      }
+    });
+
+    app.use(ElementPlus);
+    app.mount("#app");
+  </script>
+</body>
+</html>
