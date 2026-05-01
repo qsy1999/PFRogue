@@ -82,11 +82,13 @@
           return items.map((item) => {
             const id = Number.isFinite(item.id) ? item.id : "?";
             const name = formatBlock(item.name);
-            const trueName = formatBlock(item.trueName);
+            const trueNameRaw = (item.trueName ?? "").toString().trim();
             const effect = formatBlock(item.effect);
-            const resonance = formatBlock(item.resonance);
             const attunement = formatBlock(item.attunement);
-            return `<section><h3>[${id}] ${name}『${trueName}』</h3><p class="kv"><span class="key">效果：</span>${effect}</p><p class="kv"><span class="key">共振：</span>${resonance}</p><p class="kv"><span class="key">调谐：</span>${attunement}</p></section>`;
+            const resonanceRaw = (item.resonance ?? "").toString().trim();
+            const trueNamePart = trueNameRaw ? `『${this.cleanInline(trueNameRaw)}』` : "";
+            const resonancePart = resonanceRaw ? `<p class="kv"><span class="key">共振：</span>${formatBlock(resonanceRaw)}</p>` : "";
+            return `<section><h3>[${id}] ${name}${trueNamePart}</h3><p class="kv"><span class="key">效果：</span>${effect}</p>${resonancePart}<p class="kv"><span class="key">调谐：</span>${attunement}</p></section>`;
           }).join("");
         },
         cleanInline(text) {
