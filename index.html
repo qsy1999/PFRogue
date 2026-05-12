@@ -27,6 +27,7 @@
       <el-tab-pane label="艾恩石图鉴" name="res"></el-tab-pane>
       <el-tab-pane label="夏-图尔遗迹" name="ruin"></el-tab-pane>
       <el-tab-pane label="玩家指南" name="guide"></el-tab-pane>
+      <el-tab-pane label="改动日志" name="changelog"></el-tab-pane>
     </el-tabs>
     <el-card style="margin-top: 14px">
       <el-skeleton v-if="loading" :rows="8" animated></el-skeleton>
@@ -40,7 +41,8 @@
     const DOC_FILES = {
       res: "./content/艾恩石图鉴.json",
       ruin: "./content/夏-图尔遗迹.md",
-      guide: "./content/玩家指南.md"
+      guide: "./content/玩家指南.md",
+      changelog: "./content/改动日志.md"
     };
 
     const app = Vue.createApp({
