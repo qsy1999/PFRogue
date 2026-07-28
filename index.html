@@ -73,7 +73,7 @@
     .stone-entry:hover { transform: translateY(-2px); border-color: #dbc09e; box-shadow: 0 10px 28px rgba(33,49,75,.09); }
     .stone-entry h3 { margin-top: 0; padding-left: 0; }
     .stone-entry h3::before { display: none; }
-    .stone-id { display: inline-flex; align-items: center; justify-content: center; min-width: 42px; height: 26px; margin-right: 10px; border-radius: 999px; color: #fff; background: #253650; font: 700 12px/1 system-ui, sans-serif; vertical-align: 2px; }
+    .stone-id { display: inline-flex; align-items: center; justify-content: center; min-width: 60px; height: 26px; padding: 0 10px; margin-right: 10px; border-radius: 999px; color: #fff; background: #253650; font: 700 12px/1 system-ui, sans-serif; vertical-align: 2px; }
     .stone-entry .kv { background: transparent; border-top: 1px dashed #e4e7ec; border-radius: 0; }
     .footer-note { margin: 22px 4px 0; color: #8591a3; font-size: 12px; text-align: center; letter-spacing: .08em; }
     @media (max-width: 720px) {
@@ -125,6 +125,7 @@
   <script>
     const DOC_FILES = {
       res: "./content/艾恩石图鉴.json",
+      resSource: "./source/艾恩石图鉴.json",
       ruin: "./content/夏-图尔遗迹.md",
       guide: "./content/玩家指南.md",
       changelog: "./content/改动日志.md"
@@ -147,9 +148,32 @@
           this.loading = true;
           this.error = "";
           try {
+            if (key === "res") {
+              const [sourceResp, visibilityResp] = await Promise.all([
+                fetch(DOC_FILES.resSource, { cache: "no-cache" }),
+                fetch(DOC_FILES.res, { cache: "no-cache" })
+              ]);
+              if (!sourceResp.ok || !visibilityResp.ok) throw new Error("load failed");
+
+              const sourceItems = await sourceResp.json();
+              const visibilityRules = await visibilityResp.json();
+              const sourceById = new Map(sourceItems.map((item) => [item.id, item]));
+              const fields = ["name", "trueName", "effect", "resonance", "attunement"];
+              this.docs.res = visibilityRules.map((rule) => {
+                const sourceItem = sourceById.get(rule.id);
+                if (!sourceItem) return null;
+                const item = { id: sourceItem.id };
+                fields.forEach((field) => {
+                  item[field] = rule[field] === true ? sourceItem[field] : null;
+                });
+                return item;
+              }).filter(Boolean);
+              return;
+            }
+
             const resp = await fetch(DOC_FILES[key], { cache: "no-cache" });
             if (!resp.ok) throw new Error("load failed");
-            this.docs[key] = key === "res" ? await resp.json() : await resp.text();
+            this.docs[key] = await resp.text();
           } catch (e) {
             this.error = `文档加载失败：${DOC_FILES[key]}`;
           } finally {
@@ -168,14 +192,13 @@
           };
           return items.map((item) => {
             const id = Number.isFinite(item.id) ? item.id : "?";
-            const name = formatBlock(item.name);
-            const trueNameRaw = (item.trueName ?? "").toString().trim();
-            const effect = formatBlock(item.effect);
-            const attunement = formatBlock(item.attunement);
-            const resonanceRaw = (item.resonance ?? "").toString().trim();
+            const namePart = item.name !== null ? formatBlock(item.name) : "";
+            const trueNameRaw = item.trueName !== null ? (item.trueName ?? "").toString().trim() : "";
             const trueNamePart = trueNameRaw ? `『${this.cleanInline(trueNameRaw)}』` : "";
-            const resonancePart = resonanceRaw ? `<p class="kv"><span class="key">共振：</span>${formatBlock(resonanceRaw)}</p>` : "";
-            return `<section class="stone-entry"><h3><span class="stone-id">NO. ${id}</span>${name}${trueNamePart}</h3><p class="kv"><span class="key">效果：</span>${effect}</p>${resonancePart}<p class="kv"><span class="key">调谐：</span>${attunement}</p></section>`;
+            const effectPart = item.effect !== null ? `<p class="kv"><span class="key">效果：</span>${formatBlock(item.effect)}</p>` : "";
+            const resonancePart = item.resonance !== null ? `<p class="kv"><span class="key">共振：</span>${formatBlock(item.resonance)}</p>` : "";
+            const attunementPart = item.attunement !== null ? `<p class="kv"><span class="key">调谐：</span>${formatBlock(item.attunement)}</p>` : "";
+            return `<section class="stone-entry"><h3><span class="stone-id">NO. ${id}</span>${namePart}${trueNamePart}</h3>${effectPart}${resonancePart}${attunementPart}</section>`;
           }).join("");
         },
         cleanInline(text) {
