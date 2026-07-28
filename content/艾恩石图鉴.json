@@ -184,6 +184,14 @@
     "attunement": true
   },
   {
+    "id": 36,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
     "id": 37,
     "name": true,
     "trueName": false,
