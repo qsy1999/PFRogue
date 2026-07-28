@@ -188,13 +188,13 @@
           const formatBlock = (text) => {
             const raw = (text ?? "").toString();
             if (!raw.trim()) return "？";
-            return this.cleanInline(raw).replace(/\n/g, "<br>");
+            return this.escapeHtml(raw.trim()).replace(/\n/g, "<br>");
           };
           return items.map((item) => {
             const id = Number.isFinite(item.id) ? item.id : "?";
             const namePart = item.name !== null ? formatBlock(item.name) : "";
             const trueNameRaw = item.trueName !== null ? (item.trueName ?? "").toString().trim() : "";
-            const trueNamePart = trueNameRaw ? `『${this.cleanInline(trueNameRaw)}』` : "";
+            const trueNamePart = trueNameRaw ? `『${this.escapeHtml(trueNameRaw)}』` : "";
             const effectPart = item.effect !== null ? `<p class="kv"><span class="key">效果：</span>${formatBlock(item.effect)}</p>` : "";
             const resonancePart = item.resonance !== null ? `<p class="kv"><span class="key">共振：</span>${formatBlock(item.resonance)}</p>` : "";
             const attunementPart = item.attunement !== null ? `<p class="kv"><span class="key">调谐：</span>${formatBlock(item.attunement)}</p>` : "";
