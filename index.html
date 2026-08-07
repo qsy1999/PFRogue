@@ -119,12 +119,13 @@
     <main class="archive-shell">
       <el-tabs class="archive-nav" v-model="activeTab" @tab-change="loadDoc">
         <el-tab-pane label="艾恩石图鉴" name="res"></el-tab-pane>
+        <el-tab-pane label="城主手册" name="gm"></el-tab-pane>
         <el-tab-pane label="夏-图尔遗迹" name="ruin"></el-tab-pane>
         <el-tab-pane label="玩家指南" name="guide"></el-tab-pane>
         <el-tab-pane label="改动日志" name="changelog"></el-tab-pane>
       </el-tabs>
       <el-card class="content-card" shadow="never">
-        <section v-if="activeTab === 'res' && !loading && !error" class="stone-draw" aria-labelledby="stone-draw-title">
+        <section v-if="activeTab === 'gm' && !loading && !error" class="stone-draw" aria-labelledby="stone-draw-title">
           <div class="stone-draw-copy">
             <h2 id="stone-draw-title" class="stone-draw-title">未展示艾恩石抽取</h2>
             <p class="stone-draw-hint">从 {{ eligibleStoneIds.length }} 枚有正式名称、尚未收录于图鉴的艾恩石中随机抽取。</p>
@@ -141,7 +142,7 @@
         </section>
         <el-skeleton v-if="loading" :rows="8" animated></el-skeleton>
         <el-alert v-else-if="error" :title="error" type="error" :closable="false" show-icon></el-alert>
-        <div v-else class="doc-content" aria-live="polite" v-html="formattedDoc"></div>
+        <div v-else-if="activeTab !== 'gm'" class="doc-content" aria-live="polite" v-html="formattedDoc"></div>
       </el-card>
     </main>
     <p class="footer-note">ASTRAL ARCHIVE · PERSONAL CAMPAIGN RECORDS</p>
@@ -177,6 +178,10 @@
       methods: {
         async loadDoc(name) {
           const key = name || this.activeTab;
+          if (key === "gm") {
+            if (!this.docs.res) await this.loadDoc("res");
+            return;
+          }
           if (this.docs[key]) return;
           this.loading = true;
           this.error = "";
