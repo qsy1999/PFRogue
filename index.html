@@ -61,6 +61,8 @@
     .stone-draw-title { margin: 0 0 3px; color: #27364b; font-family: "STKaiti", "KaiTi", serif; font-size: 20px; font-weight: 700; }
     .stone-draw-hint { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
     .stone-draw-action { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+    .stone-draw-buttons { display: flex; flex-direction: column; gap: 8px; }
+    .stone-draw-buttons .el-button { width: 100%; margin-left: 0; }
     .stone-draw-result { min-width: 86px; color: var(--accent-deep); font-size: 13px; text-align: right; }
     .stone-draw-result strong { display: block; margin-top: 2px; color: #253650; font-size: 21px; letter-spacing: .04em; }
     .stone-draw .el-button--primary { --el-button-bg-color: #9a6228; --el-button-border-color: #9a6228; --el-button-hover-bg-color: #b87939; --el-button-hover-border-color: #b87939; --el-button-active-bg-color: #81501f; --el-button-active-border-color: #81501f; }
@@ -119,10 +121,10 @@
     <main class="archive-shell">
       <el-tabs class="archive-nav" v-model="activeTab" @tab-change="loadDoc">
         <el-tab-pane label="艾恩石图鉴" name="res"></el-tab-pane>
-        <el-tab-pane label="城主手册" name="gm"></el-tab-pane>
         <el-tab-pane label="夏-图尔遗迹" name="ruin"></el-tab-pane>
         <el-tab-pane label="玩家指南" name="guide"></el-tab-pane>
         <el-tab-pane label="改动日志" name="changelog"></el-tab-pane>
+        <el-tab-pane label="城主工具" name="gm"></el-tab-pane>
       </el-tabs>
       <el-card class="content-card" shadow="never">
         <section v-if="activeTab === 'gm' && !loading && !error" class="stone-draw" aria-labelledby="stone-draw-title">
@@ -135,11 +137,22 @@
               <template v-if="drawnStoneId !== null">抽取结果<strong>NO. {{ drawnStoneId }}</strong></template>
               <span v-else>等待抽取</span>
             </div>
-            <el-button type="primary" :disabled="!eligibleStoneIds.length" @click="drawStoneId">
-              {{ drawnStoneId === null ? "随机抽取" : "再抽一次" }}
-            </el-button>
+            <div class="stone-draw-buttons">
+              <el-button type="primary" :disabled="!eligibleStoneIds.length" @click="drawStoneId">
+                {{ drawnStoneId === null ? "随机抽取" : "再抽一次" }}
+              </el-button>
+              <el-button :disabled="!eligibleStones.length" @click="showAllEligibleStones = !showAllEligibleStones">
+                {{ showAllEligibleStones ? "收起列表" : "展示所有" }}
+              </el-button>
+            </div>
           </div>
         </section>
+        <div
+          v-if="activeTab === 'gm' && showAllEligibleStones && !loading && !error"
+          class="doc-content"
+          aria-live="polite"
+          v-html="eligibleStonesDoc"
+        ></div>
         <el-skeleton v-if="loading" :rows="8" animated></el-skeleton>
         <el-alert v-else-if="error" :title="error" type="error" :closable="false" show-icon></el-alert>
         <div v-else-if="activeTab !== 'gm'" class="doc-content" aria-live="polite" v-html="formattedDoc"></div>
@@ -165,14 +178,19 @@
           activeTab: "res",
           loading: false,
           error: "",
+          eligibleStones: [],
           eligibleStoneIds: [],
-          drawnStoneId: null
+          drawnStoneId: null,
+          showAllEligibleStones: false
         };
       },
       computed: {
         formattedDoc() {
           if (this.activeTab === "res") return this.renderResources(this.docs.res || []);
           return this.renderDoc(this.docs[this.activeTab] || "");
+        },
+        eligibleStonesDoc() {
+          return this.renderResources(this.eligibleStones);
         }
       },
       methods: {
@@ -197,13 +215,20 @@
               const visibilityRules = await visibilityResp.json();
               const sourceById = new Map(sourceItems.map((item) => [item.id, item]));
               const displayedIds = new Set(visibilityRules.map((rule) => rule.id));
-              this.eligibleStoneIds = sourceItems
-                .filter((item) => {
+              const eligibleStones = sourceItems.filter((item) => {
                   if (!Number.isFinite(item.id) || displayedIds.has(item.id) || typeof item.name !== "string") return false;
                   const name = item.name.trim();
                   return name.length > 0 && name !== "？" && name !== "?";
-                })
-                .map((item) => item.id);
+                });
+              this.eligibleStoneIds = eligibleStones.map((item) => item.id);
+              this.eligibleStones = eligibleStones.map((item) => ({
+                id: item.id,
+                name: item.name,
+                trueName: null,
+                effect: item.effect,
+                resonance: item.resonance,
+                attunement: item.attunement
+              }));
               const fields = ["name", "trueName", "effect", "resonance", "attunement"];
               this.docs.res = visibilityRules.map((rule) => {
                 const sourceItem = sourceById.get(rule.id);
