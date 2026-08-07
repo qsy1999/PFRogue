@@ -923,7 +923,7 @@
     "id": 116,
     "name": "？",
     "trueName": "",
-    "effect": "你每轮可以进行至多 3 次直觉动作，但是你会依次透支下一个迅捷、移动、标准动作，你不能透支已被透支的动作类型，你需要为每个被透支的动作承受 1 点临时负向等级，直到对应动作被支付",
+    "effect": "你每轮可以进行至多 3 次直觉动作，但是你会依次透支下一个迅捷、移动、标准动作，如果下一个动作已经被透支，那么你不能发动效果，你需要为每个被透支的动作承受 1 点临时负向等级，直到对应动作被支付",
     "resonance": "你每轮可以进行任意次直觉动作，并且会按照迅捷、移动、标准动作的次序依次透支更之后轮次的动作",
     "attunement": "以一个直觉动作激发，你可以进行一个额外的动作，这个动作等价于你为这次直觉动作牺牲的动作"
   },
@@ -931,9 +931,9 @@
     "id": 117,
     "name": "？",
     "trueName": "",
-    "effect": "",
-    "resonance": "",
-    "attunement": ""
+    "effect": "你的临时生命总是能抵挡一次完整伤害，未被抵挡的伤害不会降低你的生命值",
+    "resonance": "每轮 1 次，当你的生命值恢复到最大值，并且你没有任何临时生命时，多余的回复量会转化为临时生命",
+    "attunement": "当你的临时生命因受到伤害而全部消耗时，你可以通过激发获得临时生命，数值等同于该次伤害中未被抵挡的部分"
   },
   {
     "id": 118,
@@ -945,6 +945,654 @@
   },
   {
     "id": 119,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 120,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 121,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 122,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 123,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 124,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 125,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 126,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 127,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 128,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 129,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 130,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 131,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 132,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 133,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 134,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 135,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 136,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 137,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 138,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 139,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 140,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 141,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 142,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 143,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 144,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 145,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 146,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 147,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 148,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 149,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 150,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 151,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 152,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 153,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 154,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 155,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 156,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 157,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 158,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 159,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 160,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 161,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 162,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 163,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 164,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 165,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 166,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 167,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 168,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 169,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 170,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 171,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 172,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 173,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 174,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 175,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 176,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 177,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 178,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 179,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 180,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 181,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 182,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 183,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 184,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 185,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 186,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 187,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 188,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 189,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 190,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 191,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 192,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 193,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 194,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 195,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 196,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 197,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 198,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 199,
+    "name": "？",
+    "trueName": "",
+    "effect": "",
+    "resonance": "",
+    "attunement": ""
+  },
+  {
+    "id": 200,
     "name": "？",
     "trueName": "",
     "effect": "",

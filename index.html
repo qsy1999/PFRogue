@@ -56,6 +56,14 @@
     .archive-nav .el-tabs__content { display: none; }
     .content-card { border: 0 !important; border-radius: 0 !important; background: var(--paper) !important; }
     .content-card .el-card__body { min-height: 420px; padding: clamp(24px, 5vw, 54px) !important; }
+    .stone-draw { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 900px; margin: 0 auto 34px; padding: 18px 20px; border: 1px solid #e7dccd; border-radius: 12px; background: linear-gradient(135deg, #fffaf3, #fff); box-shadow: 0 6px 20px rgba(154,98,40,.07); }
+    .stone-draw-copy { min-width: 0; }
+    .stone-draw-title { margin: 0 0 3px; color: #27364b; font-family: "STKaiti", "KaiTi", serif; font-size: 20px; font-weight: 700; }
+    .stone-draw-hint { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .stone-draw-action { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+    .stone-draw-result { min-width: 86px; color: var(--accent-deep); font-size: 13px; text-align: right; }
+    .stone-draw-result strong { display: block; margin-top: 2px; color: #253650; font-size: 21px; letter-spacing: .04em; }
+    .stone-draw .el-button--primary { --el-button-bg-color: #9a6228; --el-button-border-color: #9a6228; --el-button-hover-bg-color: #b87939; --el-button-hover-border-color: #b87939; --el-button-active-bg-color: #81501f; --el-button-active-border-color: #81501f; }
     .doc-content { max-width: 900px; margin: 0 auto; word-break: break-word; color: #344054; font-family: inherit; font-size: 15px; line-height: 1.92; }
     .doc-content > h2:first-child { margin-top: 0; }
     .doc-content h2 { margin: 38px 0 18px; color: #172033; font-family: "STKaiti", "KaiTi", serif; font-size: 28px; letter-spacing: .05em; line-height: 1.35; }
@@ -90,6 +98,9 @@
       .archive-nav .el-tabs__nav-wrap::after { display: none; }
       .archive-nav .el-tabs__item { height: 46px; padding: 0 14px !important; font-size: 13px; white-space: nowrap; }
       .content-card .el-card__body { padding: 24px 17px !important; }
+      .stone-draw { align-items: stretch; flex-direction: column; gap: 14px; margin-bottom: 26px; padding: 16px; }
+      .stone-draw-action { justify-content: space-between; }
+      .stone-draw-result { min-width: 0; text-align: left; }
       .doc-content { font-size: 14px; line-height: 1.85; }
       .doc-content h2 { font-size: 24px; }
       .stone-entry { padding: 17px 14px 14px; }
@@ -113,6 +124,21 @@
         <el-tab-pane label="改动日志" name="changelog"></el-tab-pane>
       </el-tabs>
       <el-card class="content-card" shadow="never">
+        <section v-if="activeTab === 'res' && !loading && !error" class="stone-draw" aria-labelledby="stone-draw-title">
+          <div class="stone-draw-copy">
+            <h2 id="stone-draw-title" class="stone-draw-title">未展示艾恩石抽取</h2>
+            <p class="stone-draw-hint">从 {{ eligibleStoneIds.length }} 枚有正式名称、尚未收录于图鉴的艾恩石中随机抽取。</p>
+          </div>
+          <div class="stone-draw-action">
+            <div class="stone-draw-result" aria-live="polite">
+              <template v-if="drawnStoneId !== null">抽取结果<strong>NO. {{ drawnStoneId }}</strong></template>
+              <span v-else>等待抽取</span>
+            </div>
+            <el-button type="primary" :disabled="!eligibleStoneIds.length" @click="drawStoneId">
+              {{ drawnStoneId === null ? "随机抽取" : "再抽一次" }}
+            </el-button>
+          </div>
+        </section>
         <el-skeleton v-if="loading" :rows="8" animated></el-skeleton>
         <el-alert v-else-if="error" :title="error" type="error" :closable="false" show-icon></el-alert>
         <div v-else class="doc-content" aria-live="polite" v-html="formattedDoc"></div>
@@ -133,7 +159,14 @@
 
     const app = Vue.createApp({
       data() {
-        return { docs: {}, activeTab: "res", loading: false, error: "" };
+        return {
+          docs: {},
+          activeTab: "res",
+          loading: false,
+          error: "",
+          eligibleStoneIds: [],
+          drawnStoneId: null
+        };
       },
       computed: {
         formattedDoc() {
@@ -158,6 +191,14 @@
               const sourceItems = await sourceResp.json();
               const visibilityRules = await visibilityResp.json();
               const sourceById = new Map(sourceItems.map((item) => [item.id, item]));
+              const displayedIds = new Set(visibilityRules.map((rule) => rule.id));
+              this.eligibleStoneIds = sourceItems
+                .filter((item) => {
+                  if (!Number.isFinite(item.id) || displayedIds.has(item.id) || typeof item.name !== "string") return false;
+                  const name = item.name.trim();
+                  return name.length > 0 && name !== "？" && name !== "?";
+                })
+                .map((item) => item.id);
               const fields = ["name", "trueName", "effect", "resonance", "attunement"];
               this.docs.res = visibilityRules.map((rule) => {
                 const sourceItem = sourceById.get(rule.id);
@@ -179,6 +220,11 @@
           } finally {
             this.loading = false;
           }
+        },
+        drawStoneId() {
+          if (!this.eligibleStoneIds.length) return;
+          const index = Math.floor(Math.random() * this.eligibleStoneIds.length);
+          this.drawnStoneId = this.eligibleStoneIds[index];
         },
         escapeHtml(text) {
           return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
