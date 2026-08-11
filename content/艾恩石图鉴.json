@@ -8,6 +8,14 @@
     "attunement": true
   },
   {
+    "id": 6,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
     "id": 8,
     "name": true,
     "trueName": false,
@@ -472,6 +480,14 @@
     "attunement": true
   },
   {
+    "id": 88,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
     "id": 90,
     "name": true,
     "trueName": false,
@@ -561,6 +577,22 @@
   },
   {
     "id": 107,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
+    "id": 109,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
+    "id": 117,
     "name": true,
     "trueName": false,
     "effect": true,
