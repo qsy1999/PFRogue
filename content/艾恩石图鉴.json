@@ -1,5 +1,13 @@
 [
   {
+    "id": 1,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
     "id": 3,
     "name": true,
     "trueName": false,
@@ -17,6 +25,14 @@
   },
   {
     "id": 6,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
+    "id": 7,
     "name": true,
     "trueName": false,
     "effect": true,
@@ -217,6 +233,14 @@
   },
   {
     "id": 37,
+    "name": true,
+    "trueName": false,
+    "effect": true,
+    "resonance": true,
+    "attunement": true
+  },
+  {
+    "id": 38,
     "name": true,
     "trueName": false,
     "effect": true,
